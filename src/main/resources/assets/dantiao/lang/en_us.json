@@ -1,0 +1,5 @@
+{
+  "command.dantiao.sethome.success": "Set Home at",
+  "command.dantiao.returnhome.success": "Player returned home!",
+  "command.dantiao.returnhome.failed": "NO Home position set!"
+}
