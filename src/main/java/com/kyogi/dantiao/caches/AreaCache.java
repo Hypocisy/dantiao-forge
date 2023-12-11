@@ -1,55 +1,55 @@
 package com.kyogi.dantiao.caches;
 
+
+import com.kyogi.dantiao.configuration.DataManager;
+import com.kyogi.dantiao.util.Positions;
 import com.kyogi.dantiao.util.Debug;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.phys.Vec3;
+
+import java.io.IOException;
 
 public class AreaCache {
-    private Vec3 lobbyLocation;
-    private Vec3 winRankingLocation;
-    private Vec3 KDRankingLocation;
-
-    public Vec3 getLobby() {
-        return lobbyLocation;
-    }
-
-    public Vec3 getWinRankingLocation() {
-        return winRankingLocation;
-    }
-
-    public Vec3 getKDRankingLocation() {
-        return KDRankingLocation;
-    }
+    private Positions lobbyLocation;
+    private Positions winRankingLocation;
+    private Positions KDRankingLocation;
 
     public AreaCache() {
         try {
-            lobbyLocation = Data.getLobbyLocation();
-            winRankingLocation = Data.getHologramLocation(0);
-            KDRankingLocation = Data.getHologramLocation(1);
+            lobbyLocation = DataManager.getLobbyLocation();
+            winRankingLocation = DataManager.getHologramLocation(0);
+            KDRankingLocation = DataManager.getHologramLocation(1);
             Debug.send(Component.literal("大厅、全息图位置缓存已就绪"),
                     Component.literal("The lobby and hologram location cache has been initialized"));
         } catch (Exception e) {
-            Debug.send(Component.literal("§c大厅、全息图位置缓存未能加载"),Component.literal(
+            Debug.send(Component.literal("§c大厅、全息图位置缓存未能加载"), Component.literal(
                     "§cThe lobby and hologram location cache failed to initialize"));
         }
     }
 
-    public void setLobby(Vec3 location) {
-        this.lobbyLocation = location;
-        Data.setLobbyLocation(location);
+    public Positions getLobby() {
+        return lobbyLocation;
     }
 
-    public void setWinRanking(Vec3 location) {
-        this.winRankingLocation = location;
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            Data.setHologramLocation(0, location);
-        });
+    public void setLobby(Positions positions) throws IOException {
+        this.lobbyLocation = positions;
+        DataManager.setLobbyLocation(positions);
     }
 
-    public void setKDRanking(Location location) {
-        this.KDRankingLocation = location;
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            Data.setHologramLocation(1, location);
-        });
+    public Positions getWinRankingLocation() {
+        return winRankingLocation;
+    }
+
+    public Positions getKDRankingLocation() {
+        return KDRankingLocation;
+    }
+
+    public void setWinRanking(Positions positions) throws IOException {
+        this.winRankingLocation = positions;
+        DataManager.setHologramLocation(0, positions);
+    }
+
+    public void setKDRanking(Positions positions) throws IOException {
+        this.KDRankingLocation = positions;
+        DataManager.setHologramLocation(1, positions);
     }
 }

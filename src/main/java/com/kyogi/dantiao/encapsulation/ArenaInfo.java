@@ -1,24 +1,22 @@
-package com.kyogi.dantiao.arenas;
+package com.kyogi.dantiao.encapsulation;
 
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArenaInfo {
-    private final Component editName;
-    private final Component displayName;
-    private final Vec3 pointA;
-    private final Vec3 pointB;
-    private List<Component> commandList;
-    private Vec3 watchingPoint;
+    private final String editName;
+    private final String displayName;
+    private final BlockPos pointA;
+    private final BlockPos pointB;
+    private List<String> commandList;
+    private BlockPos watchingPoint;
     private boolean isKitMode;
     private List<ItemStack> kit;
 
-    public ArenaInfo(Component editName, Component displayName, Vec3 pointA, Vec3 pointB, List<Component> commandList, Vec3 watchingPoint, List<ItemStack> kit){
-
+    public ArenaInfo(String editName, String displayName, BlockPos pointA, BlockPos pointB, List<String> commandList, BlockPos watchingPoint, List<ItemStack> kit){
         this.editName = editName;
         this.displayName = displayName;
         this.pointA = pointA;
@@ -37,27 +35,27 @@ public class ArenaInfo {
         }
     }
 
-    public Component getEditName() {
+    public String getEditName() {
         return editName;
     }
 
-    public Component getDisplayName() {
+    public String getDisplayName() {
         return displayName;
     }
 
-    public Vec3 getPointA() {
+    public BlockPos getPointA() {
         return pointA;
     }
 
-    public Vec3 getPointB() {
+    public BlockPos getPointB() {
         return pointB;
     }
 
-    public List<Component> getCommandList() {
+    public List<String> getCommandList() {
         return commandList;
     }
 
-    public void setCommandList(List<Component> commandList) {
+    public void setCommandList(List<String> commandList) {
         if (commandList.isEmpty()){
             this.commandList = new ArrayList<>();
         } else {
@@ -65,11 +63,11 @@ public class ArenaInfo {
         }
     }
 
-    public Vec3 getWatchingPoint() {
+    public BlockPos getWatchingPoint() {
         return watchingPoint;
     }
 
-    public void setWatchingPoint(Vec3 watchingPoint) {
+    public void setWatchingPoint(BlockPos watchingPoint) {
         this.watchingPoint = watchingPoint;
     }
 

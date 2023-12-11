@@ -5,8 +5,9 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class ExpChange {
     public static void changeExp(ServerPlayer player, int exp) {
-        DanCache cache = DantiaoMod.getInstance().getCacheHandler().getDan();
-        int before = cache.get(player.getName());
+//        DanCache cache = DantiaoMod.getInstance().getCacheHandler().getDan();
+//        int before = cache.get(player.getName());
+
 //        Bukkit.getScheduler().runTask(
 //                Main.getInstance(),
 //                () -> {

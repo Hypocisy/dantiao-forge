@@ -1,114 +1,81 @@
 package com.kyogi.dantiao.configuration;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.InputStream;
+import com.kyogi.dantiao.DantiaoMod;
+
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 
-import com.kyogi.dantiao.DantiaoMod;
-import net.minecraftforge.fml.loading.FMLPaths;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.reader.StreamReader;
-
 public class DataFile {
+    private final Path arenasPath = Path.of("data/areas.yml");
     // 记录区域：单挑大厅，KD全息图位置，WIN全息图位置，各个竞技场
-    public static Path areasFile = FMLPaths.CONFIGDIR.get().resolve("areas.yml");
+    private final Path shopPath = Path.of("data/shop.yml");
     // 记录积分商城中的商品
-    public static Path shopFile = FMLPaths.CONFIGDIR.get().resolve("shop.yml");
+    private final Path recordsPath = Path.of("data/records.yml");
     // 玩家的比赛记录
-    public static Path recordsFile = FMLPaths.CONFIGDIR.get().resolve("records.yml");
+    private final Path playersdataPath = Path.of("data/playersdata.yml");
     // 玩家数据，记录玩家积分，所用的语言文件
-    public static Path playerDataFile = FMLPaths.CONFIGDIR.get().resolve("playersdata.yml");
+    private final Path blacklistPath = Path.of("data/blacklist.yml");
     // 记录黑名单
-    public static Path blacklistFile = FMLPaths.CONFIGDIR.get().resolve("blacklist.yml");
+    private final Path symbolsPath = Path.of("data/symbols.yml");
     // 特殊符号
-    public static Path symbolsFile = FMLPaths.CONFIGDIR.get().resolve("symbols.yml");
-    // 排行榜
-    public static Path rankingFile = FMLPaths.CONFIGDIR.get().resolve("ranking.yml");
+    private final Path rankingPath = Path.of("data/ranking.yml");
+    private final Path kitsPath = Path.of("data/kits.yml");
+    // 记录区域：单挑大厅，KD全息图位置，WIN全息图位置，各个竞技场
+    public YamlFileManager yamlFileManager;
+    public Map<String, Object> arenasData;
+    public Map<String, Object> shopData;
+    public Map<String, Object> recordsData;
+    public Map<String, Object> playersData;
+    public Map<String, Object> blacklistData;
+    public Map<String, Object> symbolsData;
+    public Map<String, Object> rankingData;
+    public Map<String, Object> kitsData;
 
-    // 排行榜
-    public static Yaml areas;
-    public static Yaml shop;
-    public static Yaml records;
-    public static Yaml playerData;
-    public static Yaml blacklist;
-    public static Yaml symbols;
-    public static Yaml ranking;
-
-    public static Yaml setYamlOptions() {
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        options.setPrettyFlow(true);
-        return new Yaml(options);
-    }
-
-    public static void loadData() {
+    public DataFile() {
+        this.yamlFileManager = new YamlFileManager();
         try {
-            Yaml yaml = setYamlOptions();
-            areas = yaml.load((InputStream) areasFile);
-            shop = yaml.load((InputStream) shopFile);
-            records = yaml.load((InputStream) recordsFile);
-            symbols = yaml.load((InputStream) symbolsFile);
-            playerData = yaml.load((InputStream) playerDataFile);
-            blacklist = yaml.load((InputStream) blacklistFile);
-            ranking = yaml.load((InputStream) rankingFile);
-
-        }catch (Exception e){
+            this.arenasData = yamlFileManager.readYamlFile(arenasPath);
+            this.shopData = yamlFileManager.readYamlFile(shopPath);
+            this.recordsData = yamlFileManager.readYamlFile(recordsPath);
+            this.playersData = yamlFileManager.readYamlFile(playersdataPath);
+            this.symbolsData = yamlFileManager.readYamlFile(symbolsPath);
+            this.rankingData = yamlFileManager.readYamlFile(rankingPath);
+            this.blacklistData = yamlFileManager.readYamlFile(arenasPath);
+        } catch (IOException e) {
             DantiaoMod.LOGGER.error(e.toString());
         }
     }
 
-    public static void saveAreas() {
-        try (FileWriter writer = new FileWriter(areasFile.toFile())) {
-            areas.serialize();
-            areas.dump(areas, writer);
-
-        } catch (Exception ignored) {
-        }
+    public void saveArenas() throws IOException {
+        this.yamlFileManager.writeYamlFile(arenasPath, arenasData);
     }
 
-    public static void saveShop() {
-        try (FileWriter writer = new FileWriter(shopFile.toFile())) {
-            shop.dump(shop, writer);
-        } catch (Exception ignored) {
-        }
+    public void saveShop() throws IOException {
+        this.yamlFileManager.writeYamlFile(shopPath, shopData);
     }
 
-    public static void saveRecords() {
-        try (FileWriter writer = new FileWriter(recordsFile.toFile())) {
-            records.dump(records, writer);
-        } catch (Exception ignored) {
-        }
+    public void saveRecords() throws IOException {
+        this.yamlFileManager.writeYamlFile(recordsPath, recordsData);
     }
 
-    public static void savepd() {
-        try (FileWriter writer = new FileWriter(playerDataFile.toFile())) {
-            playerData.dump(playerData, writer);
-        } catch (Exception ignored) {
-        }
+    public void savePlayerData() throws IOException {
+        this.yamlFileManager.writeYamlFile(playersdataPath, playersData);
     }
 
-    public static void saveSymbols() {
-        try (FileWriter writer = new FileWriter(symbolsFile.toFile())) {
-            areas.dump(areas, writer);
-        } catch (Exception ignored) {
-        }
+    public void saveSymbols() throws IOException {
+        this.yamlFileManager.writeYamlFile(symbolsPath, symbolsData);
     }
 
-    public static void saveBlackList() {
-        try (FileWriter writer = new FileWriter(areasFile.toFile())) {
-            areas.dump(areas, writer);
-        } catch (Exception ignored) {
-        }
+    public void saveBlackList() throws IOException {
+        this.yamlFileManager.writeYamlFile(blacklistPath, blacklistData);
     }
 
-    public static void saveRanking() {
-        try (FileWriter writer = new FileWriter(areasFile.toFile())) {
-            areas.dump(areas, writer);
-        } catch (Exception ignored) {
-        }
+    public void saveRanking() throws IOException {
+        this.yamlFileManager.writeYamlFile(rankingPath, rankingData);
+    }
+    public void saveKitsList() throws IOException {
+        this.yamlFileManager.writeYamlFile(kitsPath, kitsData);
     }
 
 }
